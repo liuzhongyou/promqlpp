@@ -5,53 +5,60 @@
 namespace promql::parser {
 
 struct Token {
-    enum struct Kind : int {
-        RIGHT_PAREN,
-        LEFT_PAREN,
+  enum struct Kind : int {
+    RIGHT_PAREN,
+    LEFT_PAREN,
 
-        RIGHT_BRACKET,
-        LEFT_BRACKET,
+    RIGHT_BRACKET,
+    LEFT_BRACKET,
 
-        RIGHT_BRACE,
-        LEFT_BRACE,
+    RIGHT_BRACE,
+    LEFT_BRACE,
 
-        COMMA,
-        COLON,
+    COMMA,
+    COLON,
 
-        NEQ,
-        NEQ_REGEX,
+    NEQ,
+    NEQ_REGEX,
 
-        EQL,
-        EQL_REGEX,
+    EQL,
+    EQL_REGEX,
 
-        EQLC,
+    EQLC,
 
-        LTE,
-        LSS,
+    LTE,
+    LSS,
 
-        GTE,
-        GTR,
+    GTE,
+    GTR,
 
-        MUL,
-        DIV,
-        MOD,
-        ADD,
-        SUB,
-        POW,
+    MUL,
+    DIV,
+    MOD,
+    ADD,
+    SUB,
+    POW,
 
-        AT,
+    AT,
 
-        IDENTIFIER,
-        STRING,
-        NUMBER,
-        DURATION,
+    IDENTIFIER,
+    STRING,
+    NUMBER,
+    DURATION,
 
-        COMMENT,
-    };
+    COMMENT,
+  };
 
-    Kind kind;
-    std::pair<int, int> position;
-    std::string_view value;
+  struct Position {
+    int start;
+    int end;
+    int col;
+    int row;
+  };
+
+  Kind kind;
+  Position position;
+  std::string_view value;
 };
 
 } // namespace promql::parser

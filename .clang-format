@@ -1,0 +1,20 @@
+﻿---
+BasedOnStyle: LLVM
+AccessModifierOffset: '0'
+AlignAfterOpenBracket: Align
+AlignConsecutiveMacros: 'true'
+AllowShortCaseLabelsOnASingleLine: 'true'
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+BinPackArguments: 'false'
+BinPackParameters: 'false'
+BreakBeforeTernaryOperators: 'true'
+BreakConstructorInitializers: BeforeComma
+ColumnLimit: 120
+ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
+IncludeBlocks: Regroup
+IndentCaseLabels: 'false'
+Language: Cpp
+ReflowComments: 'false'
+
+...

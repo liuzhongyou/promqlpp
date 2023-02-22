@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <functional>
+#include <string>
 
 namespace promql::parser::ast {
 
@@ -14,7 +14,7 @@ struct Expr {
   [[nodiscard]] virtual std::string String() const = 0;
 
   [[nodiscard]] virtual PosRange PositionRange() const {
-      return pos_range;
+    return pos_range;
   };
 
   virtual ~Expr() = default;

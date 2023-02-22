@@ -44,8 +44,10 @@ class Duration {
     }
   }
 
-public:
-  constexpr explicit Duration(std::int64_t d) : d{d} {}
+  public:
+  constexpr explicit Duration(std::int64_t d)
+      : d{d} {
+  }
 
   // String returns a string representing the duration in the form "72h3m0.5s".
   // Leading zero units are omitted. As a special case, durations less than one
@@ -114,9 +116,17 @@ public:
     return {buf + w, buf + 32};
   }
 
-  [[nodiscard]] constexpr std::int64_t Nanoseconds() const { return d; }
-  [[nodiscard]] constexpr std::int64_t Microseconds() const { return d / 1e3; }
-  [[nodiscard]] constexpr std::int64_t Milliseconds() const { return d / 1e6; }
+  [[nodiscard]] constexpr std::int64_t Nanoseconds() const {
+    return d;
+  }
+
+  [[nodiscard]] constexpr std::int64_t Microseconds() const {
+    return d / 1e3;
+  }
+
+  [[nodiscard]] constexpr std::int64_t Milliseconds() const {
+    return d / 1e6;
+  }
 
   [[nodiscard]] constexpr float Seconds() const {
     auto sec = d / second_;
@@ -138,7 +148,7 @@ public:
 };
 
 constexpr Duration operator*(std::int64_t lhs, const Duration &rhs) {
-  return Duration (lhs * rhs.Nanoseconds());
+  return Duration(lhs * rhs.Nanoseconds());
 }
 
 constexpr Duration operator*(const Duration &lhs, std::int64_t rhs) {

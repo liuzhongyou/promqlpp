@@ -1,15 +1,19 @@
 #pragma once
 
-#include "expr.hpp"
+#include "promql/parser/ast/expr.hpp"
 
 namespace promql::parser::ast {
 
 struct StringLiteral : public Expr {
-    std::string value;
+  std::string value;
 
-    StringLiteral(std::string value) : value{std::move(value)} {}
+  explicit StringLiteral(std::string value)
+      : value{std::move(value)} {
+  }
 
-    [[nodiscard]] std::string String() const override { return value; }
+  [[nodiscard]] std::string String() const override {
+    return value;
+  }
 };
 
-} // promql::parser::ast
+} // namespace promql::parser::ast

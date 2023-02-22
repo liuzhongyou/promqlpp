@@ -1,6 +1,6 @@
 find_package(GTest)
 
-if(GTEST_FOUND)
+if (GTEST_FOUND)
     include(GoogleTest)
 
     set(HEADERS
@@ -23,4 +23,4 @@ if(GTEST_FOUND)
     target_link_libraries(unittest gtest)
 
     gtest_add_tests(TARGET unittest)
-endif()
+endif ()
