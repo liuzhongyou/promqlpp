@@ -145,6 +145,14 @@ class Duration {
     auto nsec = d % hour_;
     return hour + nsec / (60 * 60 * 1e9);
   }
+
+  [[nodiscard]] auto operator<=>(const Duration &other) const {
+    return d <=> other.d;
+  }
+
+  explicit operator bool() const {
+    return d != 0;
+  }
 };
 
 constexpr Duration operator*(std::int64_t lhs, const Duration &rhs) {

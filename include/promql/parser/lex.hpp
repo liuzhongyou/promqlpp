@@ -26,21 +26,25 @@ struct Lexer {
       : s{s} {
   }
 
-  /// \brief Consume the next width charaters and return the corresponding
-  /// token. \param kind Kind of the atom to emit. \param width Width of the
-  /// atom to emit.
+  /// \brief Consume the next width charaters and return the corresponding token.
+  /// \param kind Kind of the atom to emit.
+  /// \param width Width of the atom to emit.
   Token atom(Token::Kind kind, int width = 1) {
     const auto tok = Token{
         .kind = kind,
-        .position = Token::Position{.start = static_cast<int>(cur - begin),
-                                    .end = static_cast<int>(cur + width - begin),
-                                    .col = col,
-                                    .row = row},
+        .position =
+            Token::Position{
+                .start = static_cast<int>(cur - begin),
+                .end = static_cast<int>(cur + width - begin),
+                .col = col,
+                .row = row,
+            },
         .value = std::string_view{cur, cur + width},
     };
 
     prev = width;
     cur += width;
+    col += width;
 
     return tok;
   }
@@ -116,6 +120,8 @@ struct Lexer {
 
       case '\n':
       case '\r':
+          row++;
+          col = 0;
       case '\t':
       case ' ': break;
 
@@ -146,6 +152,7 @@ struct Lexer {
     if (hasNext()) {
       auto token = next();
       cur -= prev;
+      col -= prev;
       return token;
     }
 
@@ -174,6 +181,7 @@ struct Lexer {
     return std::nullopt;
   }
 
+  // TODO(mirco): properly parse strings
   std::optional<Token> lexString(char delimiter) {
     auto len = 0;
 
@@ -196,8 +204,7 @@ struct Lexer {
 
     if (len != 0) {
       auto token = atom(Token::Kind::STRING, len);
-      // when emitting the Token, we must not include the ", while when
-      // consuming the stream we have to
+      // when emitting the Token, we must not include the ", while when consuming the stream we have to
       cur += 1;
       return token;
     }
@@ -206,11 +213,11 @@ struct Lexer {
   }
 
   std::optional<Token> lexIdentifier() {
-    auto len = 0;
-
     static const auto isalpha = [](char c) -> bool {
       return c == '_' || ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
     };
+
+    auto len = 0;
 
     while (hasNext() && isalpha(*cur)) {
       cur += 1;

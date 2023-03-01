@@ -5,6 +5,7 @@
 
 namespace promql::parser::ast {
 
+// TODO(mirco): split this into multiple enums
 enum struct ItemType {
   // Operators.
   LAND,

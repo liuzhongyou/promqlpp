@@ -10,6 +10,6 @@ TEST(Parser, Basic) {
 
   std::vector<std::pair<std::string, std::unique_ptr<Expr>>> tc = {};
 
-  promql::parser::Parser parser{"quantile by (a, b, c) (metric)"};
+  auto parser = promql::parser::Parser{"quantile by (a, b, c) (foo, bar)"};
   ASSERT_NO_THROW(parser.parse());
 }

@@ -7,26 +7,30 @@
 
 namespace promql::parser::ast {
 
-struct AggreagteExpr : public Expr {
+struct AggregateExpr : public Expr {
   ItemType op;
-  std::unique_ptr<Expr> expr;
   std::unique_ptr<Expr> param;
+  std::unique_ptr<Expr> expr;
   std::vector<std::string> grouping;
   bool without;
 
-  explicit AggreagteExpr(ItemType op,
-                         std::unique_ptr<Expr> &&expr,
+  explicit AggregateExpr(ItemType op,
                          std::unique_ptr<Expr> &&param,
+                         std::unique_ptr<Expr> &&expr,
                          std::vector<std::string> &&grouping,
                          bool without)
       : op{op}
-      , expr{std::move(expr)}
       , param{std::move(param)}
+      , expr{std::move(expr)}
       , grouping(std::move(grouping))
       , without{without} {
   }
 
-  bool IsAggregatorWithParam() const {
+  static bool IsAggregatorWithParam(ItemType op) {
+    return op == ItemType::TOPK || op == ItemType::BOTTOMK || op == ItemType::COUNT_VALUES || op == ItemType::QUANTILE;
+  }
+
+  [[nodiscard]] bool IsAggregatorWithParam() const {
     return op == ItemType::TOPK || op == ItemType::BOTTOMK || op == ItemType::COUNT_VALUES || op == ItemType::QUANTILE;
   }
 
@@ -57,13 +61,9 @@ struct AggreagteExpr : public Expr {
       s += param->String();
       s += ", ";
     }
-    s += param->String();
+    s += expr->String();
     s += ")";
     return s;
-  }
-
-  [[nodiscard]] PosRange PositionRange() const override {
-    return PosRange{0, 0};
   }
 };
 

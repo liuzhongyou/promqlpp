@@ -1,5 +1,7 @@
 #pragma once
 
+#include "promql/parser/ast/visitor.hpp"
+
 #include <functional>
 #include <string>
 
@@ -11,13 +13,13 @@ struct PosRange {
 };
 
 struct Expr {
+  virtual ~Expr() = default;
+
   [[nodiscard]] virtual std::string String() const = 0;
 
   [[nodiscard]] virtual PosRange PositionRange() const {
     return pos_range;
   };
-
-  virtual ~Expr() = default;
 
   PosRange pos_range;
 };
